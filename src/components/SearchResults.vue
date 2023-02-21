@@ -2,33 +2,35 @@
   <div class="search-results">
     <h2>{{ articles.length }} News Results</h2>
 
-    <div>
-      <div v-for="article in articles" :key="article.url">
+    <div class="flex-container">
+      <div class="flex-item" v-for="article in articles" :key="article.url">
         <div class="article-info">
           <img :src="article.urlToImage" alt="Article thumbnail">
           <div class="article-text">
             <h3>{{ article.title }}</h3>
             <p class="article-author">{{ article.author }}</p>
             <p class="article-description">{{ article.description }}</p>
-            <p class="article-date">Published: {{ toLocaleDate(article.publishedAt) }}</p>
+            <div class="article-date">Published: {{ toLocaleDate(article.publishedAt) }}</div>
+            <router-link :to="{
+              name: 'article',
+              query: {
+                title: article.title,
+                country,
+                category
+              }
+            }" class="btn">
+              Read More
+            </router-link>
           </div>
         </div>
-        <router-link :to="{
-          name: 'article',
-          query: {
-            title: article.title,
-            country,
-            category
-          }
-        }">
-          Read More
-        </router-link>
       </div>
     </div>
 
     <div v-if="isLoading" class="loading-indicator">Loading...</div>
     <div v-else-if="!isLoading && articles.length === 0" class="no-results-message">No results found.</div>
-    <button v-if="!isFetching && articles.length" ref="loadMoreButton" @click="loadMore">Load More</button>
+    <div class="load-more-button" v-if="!isFetching && articles.length">
+      <button ref="loadMoreButton" @click="loadMore">Load More</button>
+    </div>
   </div>
 </template>
   
@@ -86,28 +88,38 @@ export default {
   
 <style scoped>
 .article-info {
-  display: flex;
   margin-bottom: 20px;
 }
 
 .article-info img {
-  width: 120px;
-  height: 120px;
+  width: 100%;
+  height: auto;
   margin-right: 20px;
+}
+
+.article-text{
+  padding: 0 20px 0 20px;
 }
 
 .article-text h3 {
   font-size: 24px;
   margin-bottom: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+          line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .article-text p {
   margin-bottom: 5px;
 }
 
-.article-text .article-date {
+.article-date {
   font-size: 12px;
   color: gray;
+  margin-bottom: 20px;
 }
 
 .article-text .article-author {
@@ -117,16 +129,13 @@ export default {
 
 .article-text .article-description {
   font-size: 14px;
-}
-
-.loading-indicator {
-  text-align: center;
-  margin: 20px 0;
-}
-
-.no-results-message {
-  text-align: center;
-  margin: 20px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* number of lines to show */
+          line-clamp: 3;
+  -webkit-box-orient: vertical;
+  margin-bottom: 20px;
 }
 
 .load-more-button {
@@ -134,13 +143,26 @@ export default {
   margin-top: 20px;
 }
 
-.load-more-button button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #2c3e50;
-  color: white;
-  border: none;
+.flex-item {
+  flex: 30%;
+  background: #fff;
   border-radius: 5px;
-  cursor: pointer;
+  overflow: hidden;
+}
+
+.search-results > h2{
+  text-align: center;
+}
+
+@media screen and (max-width: 800px) {
+  .flex-item {
+    flex: 40%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .flex-item {
+    flex: 100%;
+  }
 }
 </style>

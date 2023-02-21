@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <form class="search-form" @submit.prevent="searchNews">
+  <form class="search-form" @submit.prevent="searchNews">
+    <div class="flex-container">
       <div class="form-group">
         <label for="search">Search</label>
         <input type="text" id="search" v-model="search" class="form-control">
@@ -19,10 +19,14 @@
           <option v-for="(name, id) in categories" :value="id" :key="id">{{ name }}</option>
         </select>
       </div>
-      <button type="submit" class="btn btn-primary">Search</button>
-    </form>
-    <span v-if="error" class="red">{{ error.response.data.message }}</span>
-  </div>
+    </div>
+    <center>
+      <button type="submit" class="btn search-btn">Search</button>
+    </center>
+  </form>
+  <center v-if="error" >
+    <span class="red">{{ error.response.data.message }}</span>
+  </center>
 </template>
   
 <script>
@@ -116,3 +120,33 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+
+.flex-container > .form-group{
+  flex: 30%;
+}
+
+.form-group > * {
+  display: block;
+}
+
+.form-group > *:nth-child(2){
+  width: 100%;
+  padding: 5px 0;
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+.form-group > *:nth-child(1){
+  font-size: small;
+  font-weight: 900;
+}
+
+.search-btn{
+  margin-top: 10px;
+  margin-bottom: 20px;
+  width: 150px;
+  font-weight: 900;
+}
+</style>

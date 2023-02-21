@@ -1,17 +1,22 @@
 <template>
-  <div v-if="isLoading">Loading...</div>
-  <span v-if="error" class="red">{{ error.response.data.message }}</span>
-  <div v-if="article">
-    <h1>{{ article.title }}</h1>
-    <img :src="article.urlToImage">
-    <h2>Author: {{ article.author }}</h2>
-    <h3 v-if="article.source.name">Source: {{ article.source.name }}</h3>
-    <h4>Publish: {{ toLocaleDate(article.publishedAt) }}</h4>
-    <h4>Description</h4>
-    <p>{{ article.description }}</p>
-    <h4>Content</h4>
-    <p>{{ article.content }}</p>
-    <a :href="article.url" target="_blank">Click here to go to the full article</a>
+  <div class="white-background">
+    <div v-if="isLoading" class="loading-indicator">Loading...</div>
+    <center v-if="error" >
+      <span class="red">{{ error.response.data.message }}</span>
+    </center>
+    <div v-if="article">
+      <h1>{{ article.title }}</h1>
+      <img :src="article.urlToImage">
+      <h2>Author: {{ article.author }}</h2>
+      <h3 v-if="article.source.name">Source: {{ article.source.name }}</h3>
+      <h4>Publish: {{ toLocaleDate(article.publishedAt) }}</h4>
+      <h4>Description</h4>
+      <p>{{ article.description }}</p>
+      <h4>Content</h4>
+      <p>{{ article.content }}</p>
+      <a :href="article.url" target="_blank">Click here to go to the full article</a>
+    </div>
+    <div v-else-if="!isLoading && !article" class="no-results-message">No results found.</div>
   </div>
 </template>
 
@@ -48,3 +53,15 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+img{
+  width: auto;
+  max-width: 100%;
+}
+.white-background{
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
+}
+</style>

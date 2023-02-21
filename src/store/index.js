@@ -6,7 +6,7 @@ const apiKey = process.env.VUE_APP_NEWS_API_KEY;
 export default createStore({
   state: {
     searchTerm: "",
-    country: "us",
+    country: "ph",
     category: "business",
     articles: [],
     loading: false,

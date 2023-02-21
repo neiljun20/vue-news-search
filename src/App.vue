@@ -1,7 +1,9 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link>
-  </nav>
+  <header>
+    <nav class="container">
+      <router-link to="/">Vue News Search</router-link>
+    </nav>
+  </header>
   <router-view/>
 </template>
 
@@ -13,16 +15,57 @@
   color: #2c3e50;
 }
 
-nav {
-  padding: 30px;
+body{
+  margin:0;
+  background: #f3f3f3;
+}
+
+header {
+  background: #2c3e50;
+  padding: 10px 0;
 }
 
 nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color: #fff;
+  text-decoration: none;
 }
 
-nav a.router-link-exact-active {
-  color: #42b983;
+.red{
+  color: red;
+}
+
+.container{
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
+
+.loading-indicator {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.no-results-message {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.flex-container{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.load-more-button button, .btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #2c3e50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
 }
 </style>
