@@ -20,13 +20,13 @@
         </select>
       </div>
     </div>
-    <center>
+    <div class="align-center">
       <button type="submit" class="btn search-btn">Search</button>
-    </center>
+    </div>
   </form>
-  <center v-if="error" >
-    <span class="red">{{ error.response.data.message }}</span>
-  </center>
+  <div class="align-center" v-if="error" >
+      <span class="red">{{ error.response.data.message }}</span>
+    </div>
 </template>
   
 <script>

@@ -1,9 +1,9 @@
 <template>
   <div class="white-background">
     <div v-if="isLoading" class="loading-indicator">Loading...</div>
-    <center v-if="error" >
+    <div class="align-center" v-if="error" >
       <span class="red">{{ error.response.data.message }}</span>
-    </center>
+    </div>
     <div v-if="article">
       <h1>{{ article.title }}</h1>
       <img :src="article.urlToImage">

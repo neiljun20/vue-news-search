@@ -68,4 +68,8 @@ nav a {
   display: inline-block;
   text-decoration: none;
 }
+
+.align-center{
+  text-align:center;
+}
 </style>
