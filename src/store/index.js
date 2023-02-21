@@ -11,11 +11,24 @@ export default createStore({
     articles: [],
     loading: false,
     error: null,
-    page: 1
+    page: 1,
+    totalArticles: 0
   },
   getters: {
+    getLoading(state) {
+      return state.loading
+    },
+    getError(state){
+      return state.error
+    },
     getArticles(state) {
       return state.articles;
+    },
+    getCountry(state){
+      return state.country;
+    },
+    getCategory(state){
+      return state.category;
     }
   },
   mutations: {
@@ -35,10 +48,25 @@ export default createStore({
     },
     incrementPage(state) {
       state.page++;
+    },
+    resetPage(state){
+      state.page = 1;
+    },
+    setTotalArticles(state, total){
+      state.totalArticles = total;
     }
   },
   actions: {
-    async fetchNews({ state, commit }) {
+    async fetchNews({ state, commit }, getMore = false) {
+
+      if(getMore && state.totalArticles > state.articles.length){
+        commit("incrementPage");
+      } else if(getMore && state.totalArticles <= state.articles.length){
+        return;
+      } else {
+        commit("resetPage");
+      }
+
       commit("setLoading", true);
       commit("setError", null);
 
@@ -51,12 +79,14 @@ export default createStore({
             q: state.searchTerm,
             country: state.country,
             category: state.category,
-            page: state.page
+            page: state.page,
+            pageSize: 20
           }
         });
 
-        commit("setArticles", response.data.articles);
-        commit("incrementPage");
+        const articles = getMore ? [...state.articles, ...response.data.articles] : response.data.articles
+        commit("setArticles", articles);
+        commit("setTotalArticles", response.data.totalResults);
       } catch (error) {
         commit("setError", error);
       }

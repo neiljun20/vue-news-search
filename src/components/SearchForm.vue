@@ -1,4 +1,5 @@
 <template>
+  <div class="container">
     <form class="search-form" @submit.prevent="searchNews">
       <div class="form-group">
         <label for="search">Search</label>
@@ -20,38 +21,98 @@
       </div>
       <button type="submit" class="btn btn-primary">Search</button>
     </form>
-  </template>
+    <span v-if="error" class="red">{{ error.response.data.message }}</span>
+  </div>
+</template>
   
-  <script>
-  export default {
-    data() {
-      return {
-        search: '',
-        country: '',
-        category: '',
-        countryCodes: {
-          'ae': 'United Arab Emirates',
-          'ar': 'Argentina',
-          'at': 'Austria',
-          // ... list of country codes and names
-        },
-        categories: {
-          'business': 'Business',
-          'entertainment': 'Entertainment',
-          'general': 'General',
-          // ... list of category IDs and names
-        },
-      };
-    },
-    methods: {
-      searchNews() {
-        this.$store.commit('setSearchParams', {
-          search: this.search,
-          country: this.country,
-          category: this.category,
-        });
-        this.$store.dispatch('fetchNews');
+<script>
+export default {
+  data() {
+    return {
+      search: '',
+      country: '',
+      category: '',
+      countryCodes: {
+        'ar': 'Argentina',
+        'au': 'Australia',
+        'at': 'Austria',
+        'be': 'Belgium',
+        'br': 'Brazil',
+        'bg': 'Bulgaria',
+        'ca': 'Canada',
+        'cn': 'China',
+        'co': 'Colombia',
+        'cu': 'Cuba',
+        'cz': 'Czech Republic',
+        'eg': 'Egypt',
+        'fr': 'France',
+        'de': 'Germany',
+        'gr': 'Greece',
+        'hk': 'Hong Kong',
+        'hu': 'Hungary',
+        'in': 'India',
+        'id': 'Indonesia',
+        'ie': 'Ireland',
+        'il': 'Israel',
+        'it': 'Italy',
+        'jp': 'Japan',
+        'lv': 'Latvia',
+        'lt': 'Lithuania',
+        'my': 'Malaysia',
+        'mx': 'Mexico',
+        'ma': 'Morocco',
+        'nl': 'Netherlands',
+        'nz': 'New Zealand',
+        'ng': 'Nigeria',
+        'no': 'Norway',
+        'ph': 'Philippines',
+        'pl': 'Poland',
+        'pt': 'Portugal',
+        'ro': 'Romania',
+        'ru': 'Russia',
+        'sa': 'Saudi Arabia',
+        'rs': 'Serbia',
+        'sg': 'Singapore',
+        'sk': 'Slovakia',
+        'si': 'Slovenia',
+        'za': 'South Africa',
+        'kr': 'South Korea',
+        'se': 'Sweden',
+        'ch': 'Switzerland',
+        'tw': 'Taiwan',
+        'th': 'Thailand',
+        'tr': 'Turkey',
+        'ae': 'UAE',
+        'ua': 'Ukraine',
+        'gb': 'United Kingdom',
+        'us': 'United States',
+        've': 'Venezuela'
       },
-    },
-  };
-  </script>
+      categories: {
+        'business': 'Business',
+        'entertainment': 'Entertainment',
+        'general': 'General',
+        'health': 'Health',
+        'science': 'Science',
+        'sports': 'Sports',
+        'technology': 'Technology'
+      },
+    };
+  },
+  computed: {
+    error() {
+      return this.$store.getters.getError;
+    }
+  },
+  methods: {
+    searchNews() {
+      this.$store.commit('setSearchParams', {
+        search: this.search,
+        country: this.country,
+        category: this.category,
+      });
+      this.$store.dispatch('fetchNews');
+    }
+  },
+};
+</script>
