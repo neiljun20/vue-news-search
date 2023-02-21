@@ -1,6 +1,6 @@
 <template>
   <div class="search-results">
-    <h2>Search Results</h2>
+    <h2>{{ articles.length }} News Results</h2>
 
     <div>
       <div v-for="article in articles" :key="article.url">
@@ -29,15 +29,11 @@
     <div v-if="isLoading" class="loading-indicator">Loading...</div>
     <div v-else-if="!isLoading && articles.length === 0" class="no-results-message">No results found.</div>
     <button v-if="!isFetching && articles.length" ref="loadMoreButton" @click="loadMore">Load More</button>
-
-    <!-- <div v-if="showLoadMoreButton" class="load-more-button">
-      <button @click="loadMore">Load More</button>
-    </div> -->
   </div>
 </template>
   
 <script>
-
+import { toLocaleDate } from "@/utils/toLocaleDate";
 export default {
   data(){
     return {
@@ -70,8 +66,7 @@ export default {
   },
   methods: {
     toLocaleDate(date){
-      const d = new Date(date);
-      return d.toLocaleDateString();
+      return toLocaleDate(date);
     },
     handleScroll() {
       const bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;

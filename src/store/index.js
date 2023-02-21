@@ -12,7 +12,9 @@ export default createStore({
     loading: false,
     error: null,
     page: 1,
-    totalArticles: 0
+    totalArticles: 0,
+    selectedTitle: "",
+    selectedArticle: null
   },
   getters: {
     getLoading(state) {
@@ -27,8 +29,8 @@ export default createStore({
     getCountry(state){
       return state.country;
     },
-    getCategory(state){
-      return state.category;
+    getSingleArticle(state){
+      return state.selectedArticle;
     }
   },
   mutations: {
@@ -54,6 +56,13 @@ export default createStore({
     },
     setTotalArticles(state, total){
       state.totalArticles = total;
+    },
+    setSelectedTitle(state, article) {
+      state.selectedTitle = article.title;
+      state.country = article.country;
+    },
+    setSelectedArticle(state, article){
+      state.selectedArticle = article;
     }
   },
   actions: {
@@ -92,6 +101,29 @@ export default createStore({
       }
 
       commit("setLoading", false);
+    },
+    async fetchSingleNews({ state, commit}){
+      commit("setSelectedArticle", null);
+      commit("setError", null);
+
+      try{
+        const response = await axios.get("https://newsapi.org/v2/top-headlines", {
+          headers: {
+            "X-Api-Key": apiKey
+          },
+          params: {
+            q: state.selectedTitle,
+            country: state.country,
+            category: state.category,
+            page: 1,
+            pageSize: 1
+          }
+        });
+
+        commit("setSelectedArticle", response.data.articles[0]);
+      } catch(error){
+        commit("setError", error);
+      }
     }
   },
   modules: {

@@ -1,14 +1,16 @@
 <template>
-  <div class="about">
-    <h1>{{ $route.query.title }}</h1>
+  <div class="article">
+    <ArticleDetails/>
   </div>
 </template>
 
 <script>
+import ArticleDetails from '@/components/ArticleDetails.vue';
+
 export default {
   name: 'ArticleView',
-  created(){
-    console.log(this.$route.query.title);
+  components: {
+    ArticleDetails
   }
 }
 </script>
